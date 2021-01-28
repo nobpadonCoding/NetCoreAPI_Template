@@ -29,7 +29,7 @@ namespace NetCoreAPI_Template_v2.Services.Charecter
             var character = await _dbContext.Characters.Include(x=>x.CharacterSkill).ThenInclude(x=>x.Skill).FirstOrDefaultAsync(x => x.Id == newSkill.CharacterId);
             if (character == null)
             {
-                _log.LogError("Character not found.");
+                _log.LogError("Character error not found.");
                 return ResponseResult.Failure<GetCharacterDto>("Character not found.");
             }
 
