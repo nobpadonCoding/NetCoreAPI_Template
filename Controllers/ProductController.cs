@@ -20,5 +20,11 @@ namespace NetCoreAPI_Template_v2.Controllers
         {
             return Ok(await _proService.GetAllProducts());
         }
+
+        [HttpGet("{productId}")]
+        public async Task<IActionResult> GetProductById(int productId)
+        {
+            return Ok(await _proService.GetProductById(productId));
+        }
     }
 }

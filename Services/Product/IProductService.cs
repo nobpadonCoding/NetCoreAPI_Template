@@ -8,5 +8,6 @@ namespace NetCoreAPI_Template_v2.Services.Product
     public interface IProductService
     {
         Task<ServiceResponse<List<GetProductDto>>> GetAllProducts();
+        Task<ServiceResponse<GetProductDto>> GetProductById(int productId);
     }
 }

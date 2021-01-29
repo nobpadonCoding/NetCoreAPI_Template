@@ -30,5 +30,18 @@ namespace NetCoreAPI_Template_v2.Services.Product
 
             return ResponseResult.Success(dto);
         }
+
+        public async Task<ServiceResponse<GetProductDto>> GetProductById(int productId)
+        {
+            var product = await _dbContext.Products.Include(x => x.ProductGroup).FirstOrDefaultAsync(x => x.Id == productId);
+            if (product is null)
+            {
+                return ResponseResult.Failure<GetProductDto>("Product not found.");
+            }
+
+            var dto = _mapper.Map<GetProductDto>(product);
+
+            return ResponseResult.Success(dto);
+        }
     }
 }
