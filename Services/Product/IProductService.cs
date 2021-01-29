@@ -10,6 +10,7 @@ namespace NetCoreAPI_Template_v2.Services.Product
         Task<ServiceResponse<List<GetProductDto>>> GetAllProducts();
         Task<ServiceResponse<GetProductDto>> GetProductById(int productId);
         Task<ServiceResponse<GetProductDto>> AddProduct(AddProductDto newProduct);
-        Task<ServiceResponse<GetProductDto>> EditProduct(EditProduct editProduct);
+        Task<ServiceResponse<GetProductDto>> EditProduct(EditProductDto editProduct);
+        Task<ServiceResponse<GetProductDto>> DeleteProduct(EditProductDto editProduct);
     }
 }

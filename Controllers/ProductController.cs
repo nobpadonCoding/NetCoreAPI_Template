@@ -35,7 +35,7 @@ namespace NetCoreAPI_Template_v2.Controllers
         }
 
         [HttpPut("editproduct")]
-        public async Task<IActionResult> EditProduct(EditProduct editProduct)
+        public async Task<IActionResult> EditProduct(EditProductDto editProduct)
         {
             return Ok(await _proService.EditProduct(editProduct));
         }

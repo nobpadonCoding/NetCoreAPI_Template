@@ -85,7 +85,6 @@ namespace NetCoreAPI_Template_v2
                 .Where(x => x.Id == product.Id)
                 .FirstOrDefaultAsync();
 
-
                 _log.LogInformation("Update done.");
                 var dto = _mapper.Map<GetProductDto>(productToReturn);
                 return ResponseResult.Success(dto);
