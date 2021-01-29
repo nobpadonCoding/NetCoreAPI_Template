@@ -18,8 +18,8 @@ namespace NetCoreAPI_Template_v2
             CreateMap<Character, GetCharacterDto>().ForMember(dto => dto.Skills, x => x.MapFrom(x => x.CharacterSkill.Select(cs => cs.Skill)));
             CreateMap<Weapon,GetweponDto>();
             CreateMap<Skill, GetSkillDto>();
-            CreateMap<Product,GetProductDto>();
-            CreateMap<ProductGroup,GetProductGroupDto>();
+            CreateMap<Product, GetProductDto>();
+            CreateMap<ProductGroup, GetProductGroupDto>();
         }
     }
 }

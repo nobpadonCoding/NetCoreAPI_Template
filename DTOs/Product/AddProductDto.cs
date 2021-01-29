@@ -1,15 +1,15 @@
-using NetCoreAPI_Template_v2.Models.Product;
+using System.ComponentModel.DataAnnotations;
+using NetCoreAPI_Template_v2.Validations;
 
 namespace NetCoreAPI_Template_v2.DTOs.Product
 {
-    public class GetProductDto
+    public class AddProductDto
     {
-        public int Id { get; set; }
+        [FirstLetterUpperCaseAttribute]
+        [Required]
         public string Name { get; set; }
         public int Price { get; set; }
         public int StockCount { get; set; }
         public int ProductGroupId { get; set; }
-        public string ProductGroupName { get; set; }
-        // public ProductGroup ProductGroup { get; set; }
     }
 }

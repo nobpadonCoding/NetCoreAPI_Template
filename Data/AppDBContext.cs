@@ -21,6 +21,7 @@ namespace NetCoreAPI_Template_v2.Data
         public DbSet<CharacterSkill> CharacterSkills { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductGroup> ProductGroups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

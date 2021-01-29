@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using NetCoreAPI_Template_v2.DTOs.Product;
 using NetCoreAPI_Template_v2.Services.Product;
 
 namespace NetCoreAPI_Template_v2.Controllers
@@ -25,6 +26,12 @@ namespace NetCoreAPI_Template_v2.Controllers
         public async Task<IActionResult> GetProductById(int productId)
         {
             return Ok(await _proService.GetProductById(productId));
+        }
+
+        [HttpPost("addproduct")]
+        public async Task<IActionResult> AddProduct(AddProductDto newProduct)
+        {
+            return Ok(await _proService.AddProduct(newProduct));
         }
     }
 }
