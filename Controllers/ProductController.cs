@@ -33,5 +33,11 @@ namespace NetCoreAPI_Template_v2.Controllers
         {
             return Ok(await _proService.AddProduct(newProduct));
         }
+
+        [HttpPut("editproduct")]
+        public async Task<IActionResult> EditProduct(EditProduct editProduct)
+        {
+            return Ok(await _proService.EditProduct(editProduct));
+        }
     }
 }

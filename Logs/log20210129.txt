@@ -566,3 +566,4 @@ System.Object -> NetCoreAPI_Template_v2.DTOs.Product.AddProductDto
    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
 2021-01-29 21:54:55.707 +07:00 [INF] Starting web host
 2021-01-29 21:57:11.717 +07:00 [INF] Starting web host
+2021-01-29 21:59:29.554 +07:00 [INF] Starting web host

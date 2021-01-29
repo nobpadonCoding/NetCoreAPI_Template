@@ -53,6 +53,51 @@ namespace NetCoreAPI_Template_v2
             return ResponseResult.Success(dto);
         }
 
+        public async Task<ServiceResponse<GetProductDto>> EditProduct(EditProduct editProduct)
+        {
+            try
+            {
+                var product = await _dbContext.Products.FirstOrDefaultAsync(x=>x.Id==editProduct.Id);
+                if (product is null)
+                {
+                    var msg = $"This Product ID {editProduct.Id} not found.";
+                    _log.LogError(msg);
+                    return ResponseResult.Failure<GetProductDto>(msg);
+                }
+
+                var productgroupId = await _dbContext.ProductGroups.FirstOrDefaultAsync(x=>x.Id==editProduct.ProductGroupId);
+                if (productgroupId is null)
+                {
+                    var msg = $"This Product Groups ID {editProduct.Id} not found.";
+                    return ResponseResult.Failure<GetProductDto>(msg);
+                }
+
+                product.Name = editProduct.Name;
+                product.StockCount = editProduct.StockCount;
+                product.Price = editProduct.Price;
+                product.ProductGroupId = editProduct.ProductGroupId;
+
+                _dbContext.Products.Update(product);
+                await _dbContext.SaveChangesAsync();
+
+                var productToReturn = await _dbContext.Products
+                .Include(x => x.ProductGroup)
+                .Where(x => x.Id == product.Id)
+                .FirstOrDefaultAsync();
+
+
+                _log.LogInformation("Update done.");
+                var dto = _mapper.Map<GetProductDto>(productToReturn);
+                return ResponseResult.Success(dto);
+            }
+            catch (Exception ex)
+            {
+                
+                _log.LogError(ex.Message);
+                return ResponseResult.Failure<GetProductDto>(ex.Message);
+            }
+        }
+
         public async Task<ServiceResponse<List<GetProductDto>>> GetAllProducts()
         {
             var Products = await _dbContext.Products.Include(x=>x.ProductGroup).ToListAsync();
