@@ -53,7 +53,38 @@ namespace NetCoreAPI_Template_v2
             return ResponseResult.Success(dto);
         }
 
-        public async Task<ServiceResponse<GetProductDto>> EditProduct(EditProduct editProduct)
+        public async Task<ServiceResponse<GetProductDto>> DeleteProduct(int deleteProduct)
+        {
+            try
+            {
+                var product = _dbContext.Products.Where(x => x.Id == deleteProduct);
+                if (product is null)
+                {
+                    var msg = $"This Product Id {deleteProduct} not found.";
+                    _log.LogError(msg);
+                    return ResponseResult.Failure<GetProductDto>(msg);
+                }
+
+                _dbContext.Products.RemoveRange(product);
+                await _dbContext.SaveChangesAsync();
+
+                
+                var dto = new GetProductDto
+                {
+                    Id = deleteProduct
+                };
+                
+                _log.LogInformation("Delete Product done.");
+                return ResponseResult.Success(dto,"success");
+            }
+            catch (Exception ex)
+            {
+                _log.LogError(ex.Message);
+                return ResponseResult.Failure<GetProductDto>(ex.Message);
+            }
+        }
+
+        public async Task<ServiceResponse<GetProductDto>> EditProduct(EditProductDto editProduct)
         {
             try
             {
@@ -91,7 +122,6 @@ namespace NetCoreAPI_Template_v2
             }
             catch (Exception ex)
             {
-                
                 _log.LogError(ex.Message);
                 return ResponseResult.Failure<GetProductDto>(ex.Message);
             }

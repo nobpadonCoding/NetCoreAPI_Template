@@ -39,5 +39,11 @@ namespace NetCoreAPI_Template_v2.Controllers
         {
             return Ok(await _proService.EditProduct(editProduct));
         }
+
+        [HttpDelete("deleteproduct")]
+        public async Task<IActionResult> DeleteProduct(int deleteProduct)
+        {
+            return Ok(await _proService.DeleteProduct(deleteProduct));
+        }
     }
 }
