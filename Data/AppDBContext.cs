@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NetCoreAPI_Template_v2.Models;
+using NetCoreAPI_Template_v2.Models.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace NetCoreAPI_Template_v2.Data
         public DbSet<Weapon> Weapons { get; set; }
         public DbSet<CharacterSkill> CharacterSkills { get; set; }
         public DbSet<Skill> Skills { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -16,6 +16,7 @@ using Microsoft.OpenApi.Models;
 using NetCoreAPI_Template_v2.Data;
 using NetCoreAPI_Template_v2.Helpers;
 using NetCoreAPI_Template_v2.Services.Charecter;
+using NetCoreAPI_Template_v2.Services.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,8 @@ namespace NetCoreAPI_Template_v2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
             services.AddControllers();
 
             services.AddHttpContextAccessor();
@@ -125,6 +128,7 @@ namespace NetCoreAPI_Template_v2
             //------Service------
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IcaracterService, CharacterService>();
+            services.AddScoped<IProductService,ProductService>();
             //------End: Service------
         }
 

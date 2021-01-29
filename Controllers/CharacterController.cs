@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreAPI_Template_v2.DTOs;
+using NetCoreAPI_Template_v2.DTOs.Fight;
 using NetCoreAPI_Template_v2.Services.Charecter;
 
 namespace NetCoreAPI_Template_v2.Controllers
@@ -38,6 +39,42 @@ namespace NetCoreAPI_Template_v2.Controllers
         public async Task<IActionResult> AddCharacterSkill(AddCharacterSkillDto newCharSkill)
         {
             return Ok(await _charService.AddCharacterSkill(newCharSkill));
+        }
+
+        [HttpPost("addskill")]
+        public async Task<IActionResult> AddSkill(AddskillDto newskillDto)
+        {
+            return Ok(await _charService.AddSkill(newskillDto));
+        }
+
+        // [HttpGet]
+        // public async Task<IActionResult> GetAllSkills()
+        // {
+        //     return Ok(await _charService.GetAllSkills());
+        // }
+
+        [HttpPut("weaponatk")]
+        public async Task<IActionResult> WeaponAtk(WeaponAtkDto request)
+        {
+            return Ok(await _charService.WeaponAtk(request));
+        }
+
+        [HttpPut("skillatk")]
+        public async Task<IActionResult> SkillAtk(SkillAtkDto request)
+        {
+            return Ok(await _charService.SkillAtk(request));
+        }
+
+        [HttpDelete("removeweapon")]
+        public async Task<IActionResult> RemoveWeapon(int characterId)
+        {
+            return Ok(await _charService.RemoveWeapon(characterId));
+        }
+
+        [HttpDelete("removeskill")]
+        public async Task<IActionResult> RemoveSkill(int characterId)
+        {
+            return Ok(await _charService.RemoveSkill(characterId));
         }
     }
 }
