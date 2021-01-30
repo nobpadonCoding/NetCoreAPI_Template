@@ -184,5 +184,36 @@ namespace NetCoreAPI_Template_v2.Services.Company
                 return ResponseResult.Failure<GetEmployeeDto>(ex.Message);
             }
         }
+
+        public async Task<ServiceResponse<GetPositionDto>> AddPosition(AddPositionDto newPosition)
+        {
+            try
+            {
+                var position = await _dbContext.Positions.FirstOrDefaultAsync(x => x.Description == newPosition.PositionDescription);
+                if (position != null)
+                {
+                    return ResponseResult.Failure<GetPositionDto>("Position duplicate.");
+                }
+                var position_new = new Position
+                {
+                    Description = newPosition.PositionDescription
+                };
+
+                _dbContext.Positions.Add(position_new);
+                await _dbContext.SaveChangesAsync();
+
+                var position_return = await _dbContext.Positions.FirstOrDefaultAsync(x => x.Description == newPosition.PositionDescription);
+
+                var dto = _mapper.Map<GetPositionDto>(position_return);
+                _log.LogInformation("Add Position Success.");
+                return ResponseResult.Success(dto, "Success");
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+            
+        }
     }
 }

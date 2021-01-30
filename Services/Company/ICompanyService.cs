@@ -10,6 +10,7 @@ namespace NetCoreAPI_Template_v2.Services.Company
         Task<ServiceResponse<List<GetEmployeeDto>>> GetAllEmployees();
         Task<ServiceResponse<GetEmployeeDto>> GetEmployeeById(int EmployeeId);
         Task<ServiceResponse<GetEmployeeDto>> AddEmployee(AddEmployeeDto newEmployee);
+        Task<ServiceResponse<GetPositionDto>> AddPosition(AddPositionDto newPosition);
         Task<ServiceResponse<GetEmployeeDto>> EditEmployee(EditEmployeeDto editEmployee);
         Task<ServiceResponse<GetEmployeeDto>> DeleteEmployee(int deleteEmployeeId);
     }
