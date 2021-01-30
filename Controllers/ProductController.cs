@@ -7,7 +7,7 @@ namespace NetCoreAPI_Template_v2.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductController: ControllerBase
+    public class ProductController : ControllerBase
     {
         private readonly IProductService _proService;
 

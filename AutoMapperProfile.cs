@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using NetCoreAPI_Template_v2.DTOs;
+using NetCoreAPI_Template_v2.DTOs.Company;
 using NetCoreAPI_Template_v2.DTOs.Product;
 using NetCoreAPI_Template_v2.Models;
+using NetCoreAPI_Template_v2.Models.Company;
 using NetCoreAPI_Template_v2.Models.Product;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,7 @@ namespace NetCoreAPI_Template_v2
             CreateMap<Skill, GetSkillDto>();
             CreateMap<Product, GetProductDto>();
             CreateMap<ProductGroup, GetProductGroupDto>();
+            CreateMap<Employee, GetEmployeeDto>();
         }
     }
 }

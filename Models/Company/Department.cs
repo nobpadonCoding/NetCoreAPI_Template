@@ -9,5 +9,6 @@ namespace NetCoreAPI_Template_v2.Models.Company
         public int Id { get; set; }
         public string Description { get; set; }
         public List<Employee> Employees { get; set; }
+
     }
 }

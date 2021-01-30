@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NetCoreAPI_Template_v2.Models;
+using NetCoreAPI_Template_v2.Models.Company;
 using NetCoreAPI_Template_v2.Models.Product;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,9 @@ namespace NetCoreAPI_Template_v2.Data
         public DbSet<Skill> Skills { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductGroup> ProductGroups { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Position> Positions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

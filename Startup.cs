@@ -16,6 +16,7 @@ using Microsoft.OpenApi.Models;
 using NetCoreAPI_Template_v2.Data;
 using NetCoreAPI_Template_v2.Helpers;
 using NetCoreAPI_Template_v2.Services.Charecter;
+using NetCoreAPI_Template_v2.Services.Company;
 using NetCoreAPI_Template_v2.Services.Product;
 using System;
 using System.Collections.Generic;
@@ -129,6 +130,7 @@ namespace NetCoreAPI_Template_v2
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IcaracterService, CharacterService>();
             services.AddScoped<IProductService,ProductService>();
+            services.AddScoped<ICompanyService,CompanyService>();
             //------End: Service------
         }
 
