@@ -22,22 +22,28 @@ namespace NetCoreAPI_Template_v2.Controllers
             return Ok(await _comService.GetAllEmployees());
         }
 
-        [HttpGet("{employeeId}")]
+        [HttpGet("{EmployeeId}")]
         public async Task<IActionResult> GetEmployeeById(int employeeId)
         {
             return Ok(await _comService.GetEmployeeById(employeeId));
         }
 
-        [HttpPost("addemployee")]
+        [HttpPost("addEmployee")]
         public async Task<IActionResult> AddEmployee(AddEmployeeDto newemployee)
         {
             return Ok(await _comService.AddEmployee(newemployee));
         }
 
-        [HttpPut("{editemployeeId}")]
+        [HttpPut("{editEmployeeId}")]
         public async Task<IActionResult> EditEmployee(EditEmployeeDto editemployee)
         {
             return Ok(await _comService.EditEmployee(editemployee));
+        }
+
+        [HttpDelete("{deleteEmployeeId}")]
+        public async Task<IActionResult> DeleteEmployee(int deleteEmployeeId)
+        {
+            return Ok(await _comService.DeleteEmployee(deleteEmployeeId));
         }
     }
 }
