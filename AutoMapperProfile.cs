@@ -24,6 +24,7 @@ namespace NetCoreAPI_Template_v2
             CreateMap<ProductGroup, GetProductGroupDto>();
             CreateMap<Employee, GetEmployeeDto>();
             CreateMap<Position, GetPositionDto>();
+            CreateMap<Department,GetDepartmentDto>();
         }
     }
 }

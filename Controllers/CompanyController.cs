@@ -69,5 +69,17 @@ namespace NetCoreAPI_Template_v2.Controllers
         {
             return Ok(await _comService.DeleteEmployee(deleteEmployeeId));
         }
+
+        [HttpDelete("Department/{deleteDepartmentId}")]
+        public async Task<IActionResult> DeleteDepartment(int deleteDepartmentId)
+        {
+            return Ok(await _comService.DeleteDepartment(deleteDepartmentId));
+        }
+
+        [HttpDelete("Position/{deletePositionId}")]
+        public async Task<IActionResult> DeletePosition(int deletePositionId)
+        {
+            return Ok(await _comService.DeletePosition(deletePositionId));
+        }
     }
 }

@@ -16,5 +16,7 @@ namespace NetCoreAPI_Template_v2.Services.Company
         Task<ServiceResponse<GetPositionDto>> EditPosition(EditPositionDto editPosition);
         Task<ServiceResponse<GetDepartmentDto>> EditDepartment(EditDepartmentDto editDepartment);
         Task<ServiceResponse<GetEmployeeDto>> DeleteEmployee(int deleteEmployeeId);
+        Task<ServiceResponse<GetDepartmentDto>> DeleteDepartment(int deleteDepartmentId);
+        Task<ServiceResponse<GetPositionDto>> DeletePosition(int deletePositionId);
     }
 }

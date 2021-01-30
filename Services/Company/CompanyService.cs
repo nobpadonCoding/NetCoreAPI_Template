@@ -302,5 +302,71 @@ namespace NetCoreAPI_Template_v2.Services.Company
                 return ResponseResult.Failure<GetDepartmentDto>(ex.Message);
             }
         }
+
+        public async Task<ServiceResponse<GetDepartmentDto>> DeleteDepartment(int deleteDepartmentId)
+        {
+            try
+            {
+                var department = await _dbContext.Departments.FirstOrDefaultAsync(x => x.Id == deleteDepartmentId);
+                if (department is null)
+                {
+                    return ResponseResult.Failure<GetDepartmentDto>($"department id {deleteDepartmentId} not found");
+                }
+
+                var employee = await _dbContext.Employees.FirstOrDefaultAsync(x => x.DepartmentId == deleteDepartmentId);
+                if (employee != null)
+                {
+                    var department_Active = _mapper.Map<GetDepartmentDto>(department);
+                    return ResponseResult.Failure<GetDepartmentDto>($"Department name {department_Active.Description} employee is Active");
+                }
+
+                var department_return = _mapper.Map<GetDepartmentDto>(department);
+
+                _dbContext.Departments.RemoveRange(department);
+                await _dbContext.SaveChangesAsync();
+
+                _log.LogInformation($"Delete Department id {deleteDepartmentId} done.");
+                return ResponseResult.Success(department_return, "success");
+            }
+            catch (Exception ex)
+            {
+
+                _log.LogError(ex.Message);
+                return ResponseResult.Failure<GetDepartmentDto>(ex.Message);
+            }
+        }
+
+        public async Task<ServiceResponse<GetPositionDto>> DeletePosition(int deletePositionId)
+        {
+            try
+            {
+                var position = await _dbContext.Positions.FirstOrDefaultAsync(x => x.Id == deletePositionId);
+                if (position is null)
+                {
+                    return ResponseResult.Failure<GetPositionDto>($"Position id {deletePositionId} not found");
+                }
+
+                var employee = await _dbContext.Employees.FirstOrDefaultAsync(x => x.PositionId == deletePositionId);
+                if (employee != null)
+                {
+                    var Position_Active = _mapper.Map<GetPositionDto>(position);
+                    return ResponseResult.Failure<GetPositionDto>($"Position name {Position_Active.Description} employee is Active");
+                }
+
+                var Positions_return = _mapper.Map<GetPositionDto>(position);
+
+                _dbContext.Positions.RemoveRange(position);
+                await _dbContext.SaveChangesAsync();
+
+                _log.LogInformation($"Delete position id {deletePositionId} done.");
+                return ResponseResult.Success(Positions_return, "success");
+            }
+            catch (Exception ex)
+            {
+
+                _log.LogError(ex.Message);
+                return ResponseResult.Failure<GetPositionDto>(ex.Message);
+            }
+        }
     }
 }
