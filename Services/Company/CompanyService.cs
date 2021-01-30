@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -24,29 +25,51 @@ namespace NetCoreAPI_Template_v2.Services.Company
 
         public async Task<ServiceResponse<List<GetEmployeeDto>>> GetAllEmployees()
         {
-            var Employees = await _dbContext.Employees
-                .Include(x=>x.Position)
-                .Include(x=>x.Department).ToListAsync();
+            try
+            {
+                var Employees = await _dbContext.Employees
+               .Include(x => x.Position)
+               .Include(x => x.Department).ToListAsync();
 
-            var dto = _mapper.Map<List<GetEmployeeDto>>(Employees);
+                var dto = _mapper.Map<List<GetEmployeeDto>>(Employees);
 
-            return ResponseResult.Success(dto,"Success");
+                _log.LogInformation("GetAllEmployees Success");
+                return ResponseResult.Success(dto, "Success");
+            }
+            catch (Exception ex)
+            {
+
+                _log.LogError(ex.Message);
+                return ResponseResult.Failure<List<GetEmployeeDto>>(ex.Message);
+            }
+
         }
 
         public async Task<ServiceResponse<GetEmployeeDto>> GetEmployeeById(int employeeId)
         {
-            var employee = await _dbContext.Employees
+            try
+            {
+                var employee = await _dbContext.Employees
                 .Include(x => x.Department)
                 .Include(x => x.Position)
                 .FirstOrDefaultAsync(x => x.Id == employeeId);
-            if (employee is null)
+                if (employee is null)
+                {
+                    _log.LogError($"employee id {employeeId} not found");
+                    return ResponseResult.Failure<GetEmployeeDto>($"employee id {employeeId} not found");
+                }
+
+                var dto = _mapper.Map<GetEmployeeDto>(employee);
+
+                return ResponseResult.Success(dto, "Success");
+            }
+            catch (Exception ex)
             {
-                return ResponseResult.Failure<GetEmployeeDto>($"employee id {employeeId} not found");
+
+                _log.LogError(ex.Message);
+                return ResponseResult.Failure<GetEmployeeDto>(ex.Message);
             }
 
-            var dto = _mapper.Map<GetEmployeeDto>(employee);
-
-            return ResponseResult.Success(dto,"Success");
         }
     }
 }
