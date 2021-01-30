@@ -30,7 +30,23 @@ namespace NetCoreAPI_Template_v2.Services.Company
 
             var dto = _mapper.Map<List<GetEmployeeDto>>(Employees);
 
-            return ResponseResult.Success(dto);
+            return ResponseResult.Success(dto,"Success");
+        }
+
+        public async Task<ServiceResponse<GetEmployeeDto>> GetEmployeeById(int employeeId)
+        {
+            var employee = await _dbContext.Employees
+                .Include(x => x.Department)
+                .Include(x => x.Position)
+                .FirstOrDefaultAsync(x => x.Id == employeeId);
+            if (employee is null)
+            {
+                return ResponseResult.Failure<GetEmployeeDto>($"employee id {employeeId} not found");
+            }
+
+            var dto = _mapper.Map<GetEmployeeDto>(employee);
+
+            return ResponseResult.Success(dto,"Success");
         }
     }
 }

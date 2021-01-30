@@ -20,5 +20,11 @@ namespace NetCoreAPI_Template_v2.Controllers
         {
             return Ok(await _comService.GetAllEmployees());
         }
+
+        [HttpGet("{employeeId}")]
+        public async Task<IActionResult> GetEmployeeById(int employeeId)
+        {
+            return Ok(await _comService.GetEmployeeById(employeeId));
+        }
     }
 }

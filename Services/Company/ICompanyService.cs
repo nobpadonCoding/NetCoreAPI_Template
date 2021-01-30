@@ -8,5 +8,6 @@ namespace NetCoreAPI_Template_v2.Services.Company
     public interface ICompanyService
     {
         Task<ServiceResponse<List<GetEmployeeDto>>> GetAllEmployees();
+        Task<ServiceResponse<GetEmployeeDto>> GetEmployeeById(int employeeId);
     }
 }
