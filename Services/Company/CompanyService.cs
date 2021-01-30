@@ -144,7 +144,7 @@ namespace NetCoreAPI_Template_v2.Services.Company
                 await _dbContext.SaveChangesAsync();
 
                 var dto = _mapper.Map<GetEmployeeDto>(employee);
-                _log.LogInformation($"Add employee Success");
+                _log.LogInformation($"Edit employee Success");
                 return ResponseResult.Success(dto, "Success");
             }
             catch (Exception ex)
@@ -234,7 +234,7 @@ namespace NetCoreAPI_Template_v2.Services.Company
                 _dbContext.Departments.Add(department_new);
                 await _dbContext.SaveChangesAsync();
 
-                var department_return = await _dbContext.Positions.FirstOrDefaultAsync(x => x.Description == newDepartment.DepartmentDescription);
+                var department_return = await _dbContext.Departments.FirstOrDefaultAsync(x => x.Description == newDepartment.DepartmentDescription);
 
                 var dto = _mapper.Map<GetDepartmentDto>(department_return);
                 _log.LogInformation("Add Department Success.");
@@ -246,6 +246,24 @@ namespace NetCoreAPI_Template_v2.Services.Company
                 _log.LogError(ex.Message);
                 return ResponseResult.Failure<GetDepartmentDto>(ex.Message);
             }
+        }
+
+        public async Task<ServiceResponse<GetPositionDto>> EditPosition(EditPositionDto editPosition)
+        {
+            var position = await _dbContext.Positions.FirstOrDefaultAsync(x => x.Id == editPosition.Id);
+            if (position is null)
+            {
+                return ResponseResult.Failure<GetPositionDto>($"Position id {editPosition.Id} not found");
+            }
+
+            position.Description=editPosition.PositionDescription;
+
+            _dbContext.Positions.Update(position);
+            await _dbContext.SaveChangesAsync();
+
+            var dto = _mapper.Map<GetPositionDto>(position);
+            _log.LogInformation($"Edit position Success");
+            return ResponseResult.Success(dto, "Success");
         }
     }
 }
