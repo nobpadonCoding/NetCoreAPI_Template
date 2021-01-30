@@ -34,6 +34,12 @@ namespace NetCoreAPI_Template_v2.Controllers
             return Ok(await _comService.AddEmployee(newemployee));
         }
 
+        [HttpPost("addDepartment")]
+        public async Task<IActionResult> AddDepartment(AddDepartmentDto newDepartment)
+        {
+            return Ok(await _comService.AddDepartment(newDepartment));
+        }
+
         [HttpPost("addPosition")]
         public async Task<IActionResult> AddPosition(AddPositionDto newPosition)
         {

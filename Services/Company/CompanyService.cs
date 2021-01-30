@@ -208,12 +208,44 @@ namespace NetCoreAPI_Template_v2.Services.Company
                 _log.LogInformation("Add Position Success.");
                 return ResponseResult.Success(dto, "Success");
             }
-            catch (System.Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                _log.LogError(ex.Message);
+                return ResponseResult.Failure<GetPositionDto>(ex.Message);
             }
-            
+
+        }
+
+        public async Task<ServiceResponse<GetDepartmentDto>> AddDepartment(AddDepartmentDto newDepartment)
+        {
+            try
+            {
+                var department = await _dbContext.Departments.FirstOrDefaultAsync(x => x.Description == newDepartment.DepartmentDescription);
+                if (department != null)
+                {
+                    return ResponseResult.Failure<GetDepartmentDto>("Department duplicate.");
+                }
+                var department_new = new Department
+                {
+                    Description = newDepartment.DepartmentDescription
+                };
+
+                _dbContext.Departments.Add(department_new);
+                await _dbContext.SaveChangesAsync();
+
+                var department_return = await _dbContext.Positions.FirstOrDefaultAsync(x => x.Description == newDepartment.DepartmentDescription);
+
+                var dto = _mapper.Map<GetDepartmentDto>(department_return);
+                _log.LogInformation("Add Department Success.");
+                return ResponseResult.Success(dto, "Success");
+            }
+            catch (Exception ex)
+            {
+
+                _log.LogError(ex.Message);
+                return ResponseResult.Failure<GetDepartmentDto>(ex.Message);
+            }
         }
     }
 }
