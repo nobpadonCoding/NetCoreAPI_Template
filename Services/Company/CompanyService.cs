@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using NetCoreAPI_Template_v2.Data;
 using NetCoreAPI_Template_v2.DTOs.Company;
 using NetCoreAPI_Template_v2.Models;
+using NetCoreAPI_Template_v2.Models.Company;
 
 namespace NetCoreAPI_Template_v2.Services.Company
 {
@@ -61,6 +62,46 @@ namespace NetCoreAPI_Template_v2.Services.Company
 
                 var dto = _mapper.Map<GetEmployeeDto>(employee);
 
+                return ResponseResult.Success(dto, "Success");
+            }
+            catch (Exception ex)
+            {
+
+                _log.LogError(ex.Message);
+                return ResponseResult.Failure<GetEmployeeDto>(ex.Message);
+            }
+
+        }
+
+        public async Task<ServiceResponse<GetEmployeeDto>> AddEmployee(AddEmployeeDto newemployee)
+        {
+            try
+            {
+                var position = await _dbContext.Positions.FirstOrDefaultAsync(x => x.Id == newemployee.PositionId);
+                if (position is null)
+                {
+                    return ResponseResult.Failure<GetEmployeeDto>("Position not found");
+                }
+
+                var department = await _dbContext.Departments.FirstOrDefaultAsync(x => x.Id == newemployee.DepartmentId);
+                if (department is null)
+                {
+                    return ResponseResult.Failure<GetEmployeeDto>("Department not found");
+                }
+
+                var employee_new = new Employee
+                {
+                    Name = newemployee.Name,
+                    LastName = newemployee.LastName,
+                    PositionId = newemployee.PositionId,
+                    DepartmentId = newemployee.DepartmentId
+                };
+
+                _dbContext.Employees.Add(employee_new);
+                await _dbContext.SaveChangesAsync();
+
+                var dto = _mapper.Map<GetEmployeeDto>(employee_new);
+                _log.LogInformation($"Add employee Success");
                 return ResponseResult.Success(dto, "Success");
             }
             catch (Exception ex)
