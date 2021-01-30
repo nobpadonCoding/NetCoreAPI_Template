@@ -1,13 +1,13 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NetCoreAPI_Template_v2.Models.Company
 {
-    [Table("Depratment")]
-    public class Depratment
+    public class Department
     {
         [Key]
         public int Id { get; set; }
         public string Description { get; set; }
+        public List<Employee> Employees { get; set; }
     }
 }
