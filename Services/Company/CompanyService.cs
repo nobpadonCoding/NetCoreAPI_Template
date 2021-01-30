@@ -112,5 +112,47 @@ namespace NetCoreAPI_Template_v2.Services.Company
             }
 
         }
+
+        public async Task<ServiceResponse<GetEmployeeDto>> EditEmployee(EditEmployeeDto editemployee)
+        {
+            try
+            {
+                var employee = await _dbContext.Employees.FirstOrDefaultAsync(x => x.Id == editemployee.Id);
+                if (employee is null)
+                {
+                    return ResponseResult.Failure<GetEmployeeDto>($"employee id {editemployee.Id} not found");
+                }
+
+                var position = await _dbContext.Positions.FirstOrDefaultAsync(x => x.Id == editemployee.PositionId);
+                if (position is null)
+                {
+                    return ResponseResult.Failure<GetEmployeeDto>("Position not found");
+                }
+
+                var department = await _dbContext.Departments.FirstOrDefaultAsync(x => x.Id == editemployee.DepartmentId);
+                if (department is null)
+                {
+                    return ResponseResult.Failure<GetEmployeeDto>("Department not found");
+                }
+
+                employee.Name = editemployee.Name;
+                employee.LastName = editemployee.LastName;
+                employee.PositionId = editemployee.PositionId;
+                employee.DepartmentId = editemployee.DepartmentId;
+
+                _dbContext.Employees.Update(employee);
+                await _dbContext.SaveChangesAsync();
+
+                var dto = _mapper.Map<GetEmployeeDto>(employee);
+                _log.LogInformation($"Add employee Success");
+                return ResponseResult.Success(dto, "Success");
+            }
+            catch (Exception ex)
+            {
+
+                _log.LogError(ex.Message);
+                return ResponseResult.Failure<GetEmployeeDto>(ex.Message);
+            }
+        }
     }
 }

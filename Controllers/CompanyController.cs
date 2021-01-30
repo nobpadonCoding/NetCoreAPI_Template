@@ -33,5 +33,11 @@ namespace NetCoreAPI_Template_v2.Controllers
         {
             return Ok(await _comService.AddEmployee(newemployee));
         }
+
+        [HttpPut("{editemployeeId}")]
+        public async Task<IActionResult> EditEmployee(EditEmployeeDto editemployee)
+        {
+            return Ok(await _comService.EditEmployee(editemployee));
+        }
     }
 }

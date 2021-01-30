@@ -3,8 +3,11 @@ using NetCoreAPI_Template_v2.Validations;
 
 namespace NetCoreAPI_Template_v2.DTOs.Company
 {
-    public class AddEmployeeDto
+    public class EditEmployeeDto
     {
+        [Required]
+        public int Id { get; set; }
+
         [FirstLetterUpperCaseAttribute]
         [Required]
         public string Name { get; set; }
