@@ -250,20 +250,57 @@ namespace NetCoreAPI_Template_v2.Services.Company
 
         public async Task<ServiceResponse<GetPositionDto>> EditPosition(EditPositionDto editPosition)
         {
-            var position = await _dbContext.Positions.FirstOrDefaultAsync(x => x.Id == editPosition.Id);
-            if (position is null)
+            try
             {
-                return ResponseResult.Failure<GetPositionDto>($"Position id {editPosition.Id} not found");
+                var position = await _dbContext.Positions.FirstOrDefaultAsync(x => x.Id == editPosition.Id);
+                if (position is null)
+                {
+                    return ResponseResult.Failure<GetPositionDto>($"Position id {editPosition.Id} not found");
+                }
+
+                position.Description = editPosition.PositionDescription;
+
+                _dbContext.Positions.Update(position);
+                await _dbContext.SaveChangesAsync();
+
+                var dto = _mapper.Map<GetPositionDto>(position);
+                _log.LogInformation($"Edit position Success");
+                return ResponseResult.Success(dto, "Success");
+            }
+            catch (Exception ex)
+            {
+
+                _log.LogError(ex.Message);
+                return ResponseResult.Failure<GetPositionDto>(ex.Message);
             }
 
-            position.Description=editPosition.PositionDescription;
+        }
 
-            _dbContext.Positions.Update(position);
-            await _dbContext.SaveChangesAsync();
+        public async Task<ServiceResponse<GetDepartmentDto>> EditDepartment(EditDepartmentDto editDepartment)
+        {
+            try
+            {
+                var department = await _dbContext.Departments.FirstOrDefaultAsync(x => x.Id == editDepartment.Id);
+                if (department is null)
+                {
+                    return ResponseResult.Failure<GetDepartmentDto>($"Position id {editDepartment.Id} not found");
+                }
 
-            var dto = _mapper.Map<GetPositionDto>(position);
-            _log.LogInformation($"Edit position Success");
-            return ResponseResult.Success(dto, "Success");
+                department.Description = editDepartment.DepartmentDescription;
+
+                _dbContext.Departments.Update(department);
+                await _dbContext.SaveChangesAsync();
+
+                var dto = _mapper.Map<GetDepartmentDto>(department);
+                _log.LogInformation($"Edit position Success");
+                return ResponseResult.Success(dto, "Success");
+            }
+            catch (Exception ex)
+            {
+
+                _log.LogError(ex.Message);
+                return ResponseResult.Failure<GetDepartmentDto>(ex.Message);
+            }
         }
     }
 }
