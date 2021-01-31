@@ -46,37 +46,37 @@ namespace NetCoreAPI_Template_v2.Controllers
             return Ok(await _comService.AddPosition(newPosition));
         }
 
-        [HttpPut("Employee/{editEmployeeId}")]
+        [HttpPut("Employee/Update/{editEmployeeId}")]
         public async Task<IActionResult> EditEmployee(EditEmployeeDto editemployee)
         {
             return Ok(await _comService.EditEmployee(editemployee));
         }
 
-        [HttpPut("Position/{editPositionId}")]
+        [HttpPut("Position/Update/{editPositionId}")]
         public async Task<IActionResult> EditPosition(EditPositionDto editPosition)
         {
             return Ok(await _comService.EditPosition(editPosition));
         }
 
-        [HttpPut("Department/{editDepartmentId}")]
+        [HttpPut("Department/Update/{editDepartmentId}")]
         public async Task<IActionResult> EditDepartment(EditDepartmentDto editDepartment)
         {
             return Ok(await _comService.EditDepartment(editDepartment));
         }
 
-        [HttpDelete("Employee/{deleteEmployeeId}")]
+        [HttpDelete("Employee/Delete/{deleteEmployeeId}")]
         public async Task<IActionResult> DeleteEmployee(int deleteEmployeeId)
         {
             return Ok(await _comService.DeleteEmployee(deleteEmployeeId));
         }
 
-        [HttpDelete("Department/{deleteDepartmentId}")]
+        [HttpDelete("Department/Delete/{deleteDepartmentId}")]
         public async Task<IActionResult> DeleteDepartment(int deleteDepartmentId)
         {
             return Ok(await _comService.DeleteDepartment(deleteDepartmentId));
         }
 
-        [HttpDelete("Position/{deletePositionId}")]
+        [HttpDelete("Position/Delete/{deletePositionId}")]
         public async Task<IActionResult> DeletePosition(int deletePositionId)
         {
             return Ok(await _comService.DeletePosition(deletePositionId));
