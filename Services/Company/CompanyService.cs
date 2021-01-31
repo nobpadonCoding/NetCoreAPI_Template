@@ -317,7 +317,7 @@ namespace NetCoreAPI_Template_v2.Services.Company
                 if (employee != null)
                 {
                     var department_Active = _mapper.Map<GetDepartmentDto>(department);
-                    return ResponseResult.Failure<GetDepartmentDto>($"Department name {department_Active.Description} employee is Active");
+                    return ResponseResult.Failure<GetDepartmentDto>($"Department {department_Active.Description} employee is Active");
                 }
 
                 var department_return = _mapper.Map<GetDepartmentDto>(department);
@@ -350,7 +350,7 @@ namespace NetCoreAPI_Template_v2.Services.Company
                 if (employee != null)
                 {
                     var Position_Active = _mapper.Map<GetPositionDto>(position);
-                    return ResponseResult.Failure<GetPositionDto>($"Position name {Position_Active.Description} employee is Active");
+                    return ResponseResult.Failure<GetPositionDto>($"Position {Position_Active.Description} employee is Active");
                 }
 
                 var Positions_return = _mapper.Map<GetPositionDto>(position);
