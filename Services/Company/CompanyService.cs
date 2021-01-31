@@ -51,9 +51,10 @@ namespace NetCoreAPI_Template_v2.Services.Company
             try
             {
                 var employee = await _dbContext.Employees
-                .Include(x => x.Department)
-                .Include(x => x.Position)
-                .FirstOrDefaultAsync(x => x.Id == EmployeeId);
+                    .Include(x => x.Department)
+                    .Include(x => x.Position)
+                    .FirstOrDefaultAsync(x => x.Id == EmployeeId);
+
                 if (employee is null)
                 {
                     _log.LogError($"employee id {EmployeeId} not found");
@@ -62,6 +63,7 @@ namespace NetCoreAPI_Template_v2.Services.Company
 
                 var dto = _mapper.Map<GetEmployeeDto>(employee);
 
+                _log.LogInformation("GetEmployeesById Success");
                 return ResponseResult.Success(dto, "Success");
             }
             catch (Exception ex)
@@ -190,7 +192,7 @@ namespace NetCoreAPI_Template_v2.Services.Company
             try
             {
                 var position = await _dbContext.Positions.FirstOrDefaultAsync(x => x.Description == newPosition.PositionDescription);
-                if (position != null)
+                if (!(position is null))
                 {
                     return ResponseResult.Failure<GetPositionDto>("Position duplicate.");
                 }
@@ -222,7 +224,7 @@ namespace NetCoreAPI_Template_v2.Services.Company
             try
             {
                 var department = await _dbContext.Departments.FirstOrDefaultAsync(x => x.Description == newDepartment.DepartmentDescription);
-                if (department != null)
+                if (!(department is null))
                 {
                     return ResponseResult.Failure<GetDepartmentDto>("Department duplicate.");
                 }
@@ -314,7 +316,7 @@ namespace NetCoreAPI_Template_v2.Services.Company
                 }
 
                 var employee = await _dbContext.Employees.FirstOrDefaultAsync(x => x.DepartmentId == deleteDepartmentId);
-                if (employee != null)
+                if (!(employee is null))
                 {
                     var department_Active = _mapper.Map<GetDepartmentDto>(department);
                     return ResponseResult.Failure<GetDepartmentDto>($"Department {department_Active.Description} employee is Active");
@@ -347,7 +349,7 @@ namespace NetCoreAPI_Template_v2.Services.Company
                 }
 
                 var employee = await _dbContext.Employees.FirstOrDefaultAsync(x => x.PositionId == deletePositionId);
-                if (employee != null)
+                if (!(employee is null))
                 {
                     var Position_Active = _mapper.Map<GetPositionDto>(position);
                     return ResponseResult.Failure<GetPositionDto>($"Position {Position_Active.Description} employee is Active");
