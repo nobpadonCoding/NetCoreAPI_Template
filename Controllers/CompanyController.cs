@@ -28,19 +28,19 @@ namespace NetCoreAPI_Template_v2.Controllers
             return Ok(await _comService.GetEmployeeById(employeeId));
         }
 
-        [HttpPost("Employee/Add/addEmployee")]
+        [HttpPost("addEmployee")]
         public async Task<IActionResult> AddEmployee(AddEmployeeDto newemployee)
         {
             return Ok(await _comService.AddEmployee(newemployee));
         }
 
-        [HttpPost("Department/Add/addDepartment")]
+        [HttpPost("addDepartment")]
         public async Task<IActionResult> AddDepartment(AddDepartmentDto newDepartment)
         {
             return Ok(await _comService.AddDepartment(newDepartment));
         }
 
-        [HttpPost("Position/Add/addPosition")]
+        [HttpPost("addPosition")]
         public async Task<IActionResult> AddPosition(AddPositionDto newPosition)
         {
             return Ok(await _comService.AddPosition(newPosition));
