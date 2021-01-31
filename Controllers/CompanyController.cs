@@ -23,33 +23,33 @@ namespace NetCoreAPI_Template_v2.Controllers
         }
 
         [HttpGet("{EmployeeId}")]
-        public async Task<IActionResult> GetEmployeeById(int employeeId)
+        public async Task<IActionResult> GetEmployeeById(int EmployeeId)
         {
-            return Ok(await _comService.GetEmployeeById(employeeId));
+            return Ok(await _comService.GetEmployeeById(EmployeeId));
         }
 
         [HttpPost("Employee/Add/addEmployee")]
-        public async Task<IActionResult> AddEmployee(AddEmployeeDto newemployee)
+        public async Task<IActionResult> AddEmployee(AddEmployeeDto newEmployee)
         {
-            return Ok(await _comService.AddEmployee(newemployee));
+            return Ok(await _comService.AddEmployee(newEmployee));
         }
 
-        [HttpPost("addDepartment")]
+        [HttpPost("Department/Add/addDepartment")]
         public async Task<IActionResult> AddDepartment(AddDepartmentDto newDepartment)
         {
             return Ok(await _comService.AddDepartment(newDepartment));
         }
 
-        [HttpPost("addPosition")]
+        [HttpPost("Position/Add/addPosition")]
         public async Task<IActionResult> AddPosition(AddPositionDto newPosition)
         {
             return Ok(await _comService.AddPosition(newPosition));
         }
 
         [HttpPut("Employee/Update/{editEmployeeId}")]
-        public async Task<IActionResult> EditEmployee(EditEmployeeDto editemployee)
+        public async Task<IActionResult> EditEmployee(EditEmployeeDto editEmployee)
         {
-            return Ok(await _comService.EditEmployee(editemployee));
+            return Ok(await _comService.EditEmployee(editEmployee));
         }
 
         [HttpPut("Position/Update/{editPositionId}")]
