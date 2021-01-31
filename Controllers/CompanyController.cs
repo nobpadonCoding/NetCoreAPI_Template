@@ -23,15 +23,15 @@ namespace NetCoreAPI_Template_v2.Controllers
         }
 
         [HttpGet("{EmployeeId}")]
-        public async Task<IActionResult> GetEmployeeById(int EmployeeId)
+        public async Task<IActionResult> GetEmployeeById(int employeeId)
         {
-            return Ok(await _comService.GetEmployeeById(EmployeeId));
+            return Ok(await _comService.GetEmployeeById(employeeId));
         }
 
         [HttpPost("Employee/Add/addEmployee")]
-        public async Task<IActionResult> AddEmployee(AddEmployeeDto newEmployee)
+        public async Task<IActionResult> AddEmployee(AddEmployeeDto newemployee)
         {
-            return Ok(await _comService.AddEmployee(newEmployee));
+            return Ok(await _comService.AddEmployee(newemployee));
         }
 
         [HttpPost("Department/Add/addDepartment")]
@@ -47,9 +47,9 @@ namespace NetCoreAPI_Template_v2.Controllers
         }
 
         [HttpPut("Employee/Update/{editEmployeeId}")]
-        public async Task<IActionResult> EditEmployee(EditEmployeeDto editEmployee)
+        public async Task<IActionResult> EditEmployee(EditEmployeeDto editemployee)
         {
-            return Ok(await _comService.EditEmployee(editEmployee));
+            return Ok(await _comService.EditEmployee(editemployee));
         }
 
         [HttpPut("Position/Update/{editPositionId}")]
