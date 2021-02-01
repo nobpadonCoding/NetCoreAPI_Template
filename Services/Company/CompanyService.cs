@@ -181,18 +181,15 @@ namespace NetCoreAPI_Template_v2.Services.Company
                     return ResponseResult.Failure<GetEmployeeDto>($"employee id {deleteEmployeeId} not found");
                 }
 
+                //mapper Dto and return
+                var employee_return = _mapper.Map<GetEmployeeDto>(employee);
+
                 //remove database
                 _dbContext.Employees.RemoveRange(employee);
                 await _dbContext.SaveChangesAsync();
 
-
-                var dto = new GetEmployeeDto
-                {
-                    Id = deleteEmployeeId
-                };
-
                 _log.LogInformation("Delete Employee done.");
-                return ResponseResult.Success(dto, "success");
+                return ResponseResult.Success(employee_return, "success");
             }
             catch (Exception ex)
             {
