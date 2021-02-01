@@ -174,7 +174,10 @@ namespace NetCoreAPI_Template_v2.Services.Company
         {
             try
             {
-                var employee = await _dbContext.Employees.FirstOrDefaultAsync(x => x.Id == deleteEmployeeId);
+                var employee = await _dbContext.Employees
+                    .Include(x=>x.Position)
+                    .Include(x=>x.Department)
+                    .FirstOrDefaultAsync(x => x.Id == deleteEmployeeId);
                 //check Employee
                 if (employee is null)
                 {
