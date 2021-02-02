@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NetCoreAPI_Template_v2.Data;
 using NetCoreAPI_Template_v2.Helpers;
+using NetCoreAPI_Template_v2.Services;
 using NetCoreAPI_Template_v2.Services.Charecter;
 using NetCoreAPI_Template_v2.Services.Company;
 using NetCoreAPI_Template_v2.Services.Product;
@@ -131,6 +132,7 @@ namespace NetCoreAPI_Template_v2
             services.AddScoped<IcaracterService, CharacterService>();
             services.AddScoped<IProductService,ProductService>();
             services.AddScoped<ICompanyService,CompanyService>();
+            services.AddScoped<IBulkService, BuikService>();
             //------End: Service------
         }
 

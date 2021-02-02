@@ -18,6 +18,24 @@ namespace NetCoreAPI_Template_v2.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("NetCoreAPI_Template_v2.Models.Bulk", b =>
+                {
+                    b.Property<int>("BulkId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BulkCode")
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("BulkName")
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
+
+                    b.HasKey("BulkId");
+
+                    b.ToTable("Bulk");
+                });
+
             modelBuilder.Entity("NetCoreAPI_Template_v2.Models.Character", b =>
                 {
                     b.Property<int>("Id")

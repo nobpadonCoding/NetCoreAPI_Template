@@ -26,6 +26,7 @@ namespace NetCoreAPI_Template_v2.Data
         public DbSet<Department> Departments { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Position> Positions { get; set; }
+        public DbSet<Bulk> Bulk { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
