@@ -12,5 +12,6 @@ namespace NetCoreAPI_Template_v2.DTOs
         public double TotalAmountPages { get; set; }
         public double CurrentPage { get; set; }
         public double RecordsPerPage { get; set; }
+        public int PageIndex { get; set; }
     }
 }

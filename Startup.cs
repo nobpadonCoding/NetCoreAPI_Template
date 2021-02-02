@@ -52,10 +52,10 @@ namespace NetCoreAPI_Template_v2
                 builder.AllowAnyOrigin()
                        .AllowAnyMethod()
                        .AllowAnyHeader();
-                builder.WithExposedHeaders("totalAmountRecords");
-                builder.WithExposedHeaders("totalAmountPages");
-                builder.WithExposedHeaders("currentPage");
-                builder.WithExposedHeaders("recordsPerPage");
+                // builder.WithExposedHeaders("totalAmountRecords");
+                // builder.WithExposedHeaders("totalAmountPages");
+                // builder.WithExposedHeaders("currentPage");
+                // builder.WithExposedHeaders("recordsPerPage");
             }));
             //------End: Allow Origins------
 
