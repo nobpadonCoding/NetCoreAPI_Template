@@ -106,7 +106,6 @@ namespace NetCoreAPI_Template_v2.Services
                 }
                 catch
                 {
-
                     return ResponseResultWithPagination.Failure<List<Bulk>>($"Could not order by field: {filter.OrderingField}");
                 }
             }
@@ -117,6 +116,18 @@ namespace NetCoreAPI_Template_v2.Services
             var dto = await queryable.Paginate(filter).ToListAsync();
 
             return ResponseResultWithPagination.Success(dto, paginationResult);
+        }
+
+        public async Task<ServiceResponse<List<Bulk>>> GetBulksByInlineSQL(int bulkId)
+        {
+            var result = await _dbContext.Bulk.FromSqlRaw($"Select * from dbo.[Bulk] where BulkId = {bulkId}").ToListAsync();
+            return ResponseResult.Success(result);
+        }
+
+        public async Task<ServiceResponse<List<Bulk>>> GetBulksByStoreProcedure(int bulkId)
+        {
+            var result = await _dbContext.Bulk.FromSqlRaw($"Exec dbo.usp_BulkById_select @BulkId = {bulkId}").ToListAsync();
+            return ResponseResult.Success(result);
         }
     }
 }

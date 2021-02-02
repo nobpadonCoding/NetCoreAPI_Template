@@ -1,4 +1,6 @@
 using AutoMapper;
+using Microsoft.AspNet.OData.Builder;
+using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -6,15 +8,19 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
+using Microsoft.OData.Edm;
 using Microsoft.OpenApi.Models;
 using NetCoreAPI_Template_v2.Data;
 using NetCoreAPI_Template_v2.Helpers;
+using NetCoreAPI_Template_v2.Models;
 using NetCoreAPI_Template_v2.Services;
 using NetCoreAPI_Template_v2.Services.Charecter;
 using NetCoreAPI_Template_v2.Services.Company;
@@ -71,6 +77,10 @@ namespace NetCoreAPI_Template_v2
             services.AddDbContext<AppDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //------End: DBContext------
+
+
+            services.AddOData();
+
 
             //------Swagger------
             services.AddSwaggerGen(config =>
@@ -134,6 +144,8 @@ namespace NetCoreAPI_Template_v2
             services.AddScoped<ICompanyService,CompanyService>();
             services.AddScoped<IBulkService, BuikService>();
             //------End: Service------
+
+            AddFormatters(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -186,7 +198,34 @@ namespace NetCoreAPI_Template_v2
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.EnableDependencyInjection();
+                endpoints.Select().Filter().Count().Expand().OrderBy().MaxTop(100);
+                endpoints.MapODataRoute(routeName: "api", routePrefix: "api", model: GetEdmModel());
             });
+        }
+
+        private IEdmModel GetEdmModel()
+        {
+            var builder = new ODataConventionModelBuilder();
+            builder.EntitySet<Bulk>("Bulk");
+            return builder.GetEdmModel();
+        }
+
+        private void AddFormatters(IServiceCollection services)
+        {
+            services.AddMvcCore(options =>
+            {
+                foreach (var outputFormatter in options.OutputFormatters.OfType<OutputFormatter>().Where(x => x.SupportedMediaTypes.Count == 0))
+                {
+                    outputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
+                }
+
+                foreach (var inputFormatter in options.InputFormatters.OfType<InputFormatter>().Where(x => x.SupportedMediaTypes.Count == 0))
+                {
+                    inputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
+                }
+            }
+            );
         }
     }
 }

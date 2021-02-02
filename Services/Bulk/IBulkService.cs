@@ -15,5 +15,7 @@ namespace NetCoreAPI_Template_v2.Services
 
         Task<ServiceResponseWithPagination<List<Bulk>>> GetBulksWithPagination(PaginationDto pagination);
         Task<ServiceResponseWithPagination<List<Bulk>>> GetBulksFilter(BulkFilterDto filter);
+        Task<ServiceResponse<List<Bulk>>> GetBulksByInlineSQL(int bulkId);
+        Task<ServiceResponse<List<Bulk>>> GetBulksByStoreProcedure(int bulkId);
     }
 }
