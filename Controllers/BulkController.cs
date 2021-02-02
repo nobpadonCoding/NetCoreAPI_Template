@@ -29,7 +29,7 @@ namespace NetCoreAPI_Template_v2.Controllers
             return Ok(_bulkService.BulkUpdate());
         }
 
-        [HttpPut("delete")]
+        [HttpDelete("delete")]
         public IActionResult BulkDelete()
         {
             return Ok(_bulkService.BulkDelete());
