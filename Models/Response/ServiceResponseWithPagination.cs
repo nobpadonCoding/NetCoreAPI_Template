@@ -22,7 +22,8 @@ namespace NetCoreAPI_Template_v2.Models
                 TotalAmountRecords = paginationResult.TotalAmountRecords,
                 TotalAmountPages = paginationResult.TotalAmountPages,
                 CurrentPage = paginationResult.CurrentPage,
-                RecordsPerPage = paginationResult.RecordsPerPage
+                RecordsPerPage = paginationResult.RecordsPerPage,
+                PageIndex = paginationResult.PageIndex
             };
         }
 

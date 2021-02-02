@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NetCoreAPI_Template_v2.DTOs;
+using NetCoreAPI_Template_v2.DTOs.Bulk;
 using NetCoreAPI_Template_v2.Models;
 
 namespace NetCoreAPI_Template_v2.Services
@@ -13,5 +14,6 @@ namespace NetCoreAPI_Template_v2.Services
         List<Bulk> GetBulks();
 
         Task<ServiceResponseWithPagination<List<Bulk>>> GetBulksWithPagination(PaginationDto pagination);
+        Task<ServiceResponseWithPagination<List<Bulk>>> GetBulksFilter(BulkFilterDto filter);
     }
 }

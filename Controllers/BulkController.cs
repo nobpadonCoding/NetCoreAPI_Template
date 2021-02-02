@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreAPI_Template_v2.DTOs;
+using NetCoreAPI_Template_v2.DTOs.Bulk;
 using NetCoreAPI_Template_v2.Services;
 
 namespace NetCoreAPI_Template_v2.Controllers
@@ -41,6 +42,12 @@ namespace NetCoreAPI_Template_v2.Controllers
         public async Task<IActionResult> GetBulksWithPagination([FromQuery] PaginationDto pagination)
         {
             return Ok(await _bulkService.GetBulksWithPagination(pagination));
+        }
+
+        [HttpGet("bulk/filter")]
+        public async Task<IActionResult> GetBulksFilter([FromQuery] BulkFilterDto filter)
+        {
+            return Ok(await _bulkService.GetBulksFilter(filter));
         }
     }
 }

@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using NetCoreAPI_Template_v2.Data;
 using NetCoreAPI_Template_v2.DTOs;
+using NetCoreAPI_Template_v2.DTOs.Bulk;
 using NetCoreAPI_Template_v2.Helpers;
 using NetCoreAPI_Template_v2.Models;
+using System.Linq.Dynamic.Core;
 
 namespace NetCoreAPI_Template_v2.Services
 {
@@ -76,6 +78,43 @@ namespace NetCoreAPI_Template_v2.Services
             var paginationResult = await _httpContext.HttpContext
                 .InsertPaginationParametersInResponse(queryable,pagination.RecordsPerPage, pagination.Page);
             var dto = await queryable.Paginate(pagination).ToListAsync();
+
+            return ResponseResultWithPagination.Success(dto, paginationResult);
+        }
+
+        public async Task<ServiceResponseWithPagination<List<Bulk>>> GetBulksFilter(BulkFilterDto filter)
+        {
+            var queryable = _dbContext.Bulk.AsQueryable();
+
+            //Filter
+            if (!string.IsNullOrWhiteSpace(filter.BulkName))
+            {
+                queryable = queryable.Where(x => x.BulkName.Contains(filter.BulkName));
+            }
+
+            if (!string.IsNullOrWhiteSpace(filter.BulkCode))
+            {
+                queryable = queryable.Where(x => x.BulkCode.Contains(filter.BulkCode));
+            }
+
+            //Ordering
+            if (!string.IsNullOrWhiteSpace(filter.OrderingField))
+            {
+                try
+                {
+                    queryable = queryable.OrderBy($"{filter.OrderingField} {(filter.AscendingOrder ? "ascending" : "descending")}");
+                }
+                catch
+                {
+
+                    return ResponseResultWithPagination.Failure<List<Bulk>>($"Could not order by field: {filter.OrderingField}");
+                }
+            }
+
+            var paginationResult = await _httpContext.HttpContext
+                .InsertPaginationParametersInResponse(queryable, filter.RecordsPerPage, filter.Page);
+
+            var dto = await queryable.Paginate(filter).ToListAsync();
 
             return ResponseResultWithPagination.Success(dto, paginationResult);
         }
