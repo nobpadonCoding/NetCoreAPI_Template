@@ -1,13 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NetCoreAPI_Template_v2.Data;
 using NetCoreAPI_Template_v2.DTOs.Company;
+using NetCoreAPI_Template_v2.Helpers;
 using NetCoreAPI_Template_v2.Models;
 using NetCoreAPI_Template_v2.Models.Company;
+using System.Linq.Dynamic.Core;
 
 namespace NetCoreAPI_Template_v2.Services.Company
 {
@@ -16,12 +20,14 @@ namespace NetCoreAPI_Template_v2.Services.Company
         private readonly AppDBContext _dbContext;
         private readonly IMapper _mapper;
         private readonly ILogger<CompanyService> _log;
+        private readonly IHttpContextAccessor _httpContext;
 
-        public CompanyService(AppDBContext dbContext, IMapper mapper, ILogger<CompanyService> log)
+        public CompanyService(AppDBContext dbContext, IMapper mapper, ILogger<CompanyService> log, IHttpContextAccessor httpContext)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _log = log;
+            _httpContext = httpContext;
         }
 
         public async Task<ServiceResponse<List<GetEmployeeDto>>> GetAllEmployees()
@@ -408,6 +414,44 @@ namespace NetCoreAPI_Template_v2.Services.Company
                 _log.LogError(ex.Message);
                 return ResponseResult.Failure<GetPositionDto>(ex.Message);
             }
+        }
+
+        public async Task<ServiceResponse<List<Employee>>> GetEmployeeFilter(EmployeeFilterDto EmployeeFilter)
+        {
+            var queryable = _dbContext.Employees
+                .Include(x => x.Position)
+                .Include(x => x.Department).AsQueryable();
+
+            //Filter
+            if (!string.IsNullOrWhiteSpace(EmployeeFilter.EmployeeName))
+            {
+                queryable = queryable.Where(x => x.Name.Contains(EmployeeFilter.EmployeeName));
+            }
+
+            // if (!string.IsNullOrWhiteSpace(EmployeeFilter.EmployeeDepartment))
+            // {
+            //     queryable = queryable.Where(x => x.Department.Contains(EmployeeFilter.EmployeeDepartment));
+            // }
+
+            //Ordering
+            if (!string.IsNullOrWhiteSpace(EmployeeFilter.OrderingField))
+            {
+                try
+                {
+                    queryable = queryable.OrderBy($"{EmployeeFilter.OrderingField} {(EmployeeFilter.AscendingOrder ? "ascending" : "descending")}");
+                }
+                catch
+                {
+                    return ResponseResultWithPagination.Failure<List<Employee>>($"Could not order by field: {EmployeeFilter.OrderingField}");
+                }
+            }
+
+            var paginationResult = await _httpContext.HttpContext
+                .InsertPaginationParametersInResponse(queryable, EmployeeFilter.RecordsPerPage, EmployeeFilter.Page);
+
+            var dto = await queryable.Paginate(EmployeeFilter).ToListAsync();
+
+            return ResponseResultWithPagination.Success(dto, paginationResult);
         }
     }
 }

@@ -81,5 +81,11 @@ namespace NetCoreAPI_Template_v2.Controllers
         {
             return Ok(await _comService.DeletePosition(deletePositionId));
         }
+
+        [HttpGet("Employee/filter")]
+        public async Task<IActionResult> GetAllEmployeeFilter([FromQuery] EmployeeFilterDto EmployeeFilter)
+        {
+            return Ok(await _comService.GetEmployeeFilter(EmployeeFilter));
+        }
     }
 }

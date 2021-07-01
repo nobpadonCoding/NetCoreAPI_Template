@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using NetCoreAPI_Template_v2.DTOs.Company;
 using NetCoreAPI_Template_v2.Models;
+using NetCoreAPI_Template_v2.Models.Company;
 
 namespace NetCoreAPI_Template_v2.Services.Company
 {
@@ -18,5 +19,6 @@ namespace NetCoreAPI_Template_v2.Services.Company
         Task<ServiceResponse<GetEmployeeDto>> DeleteEmployee(int deleteEmployeeId);
         Task<ServiceResponse<GetDepartmentDto>> DeleteDepartment(int deleteDepartmentId);
         Task<ServiceResponse<GetPositionDto>> DeletePosition(int deletePositionId);
+        Task<ServiceResponse<List<Employee>>> GetEmployeeFilter(EmployeeFilterDto EmployeeFilter);
     }
 }
